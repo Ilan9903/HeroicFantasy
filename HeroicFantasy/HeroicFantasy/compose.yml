@@ -41,12 +41,7 @@ services:
       MYSQL_DATABASE: app
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-    command: --default-authentication-plugin=mysql_native_password
-        --character-set-server=utf8mb4
-        --collation-server=utf8mb4_unicode_ci
-        --innodb_buffer_pool_size=256M
-        --table_definition_cache=400
-        --performance_schema=OFF
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --innodb_buffer_pool_size=256M --table_definition_cache=400 --performance_schema=OFF
     volumes:
       - mysql_data:/var/lib/mysql:cached
     networks:
@@ -81,4 +76,4 @@ volumes:
   mysql_data:
   composer_cache:
   symfony_cache:
-  symfony_logs: 
+  symfony_logs:
