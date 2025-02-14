@@ -1,0 +1,5 @@
+framework:
+    profiler:
+        collect: false
+    cache:
+        app: cache.adapter.array 

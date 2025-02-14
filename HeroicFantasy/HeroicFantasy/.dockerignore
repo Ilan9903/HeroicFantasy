@@ -1,0 +1,7 @@
+app/var/cache/*
+app/var/log/*
+app/vendor/*
+app/node_modules/*
+.git
+.idea
+.env.local 
