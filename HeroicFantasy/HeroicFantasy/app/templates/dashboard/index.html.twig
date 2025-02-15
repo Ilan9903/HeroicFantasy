@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard
+{% endblock %}
+
+{% block body %}
+	<h1>Bienvenue sur ton Dashboard,
+		{{ hero.name }}
+		!</h1>
+
+	<!-- Affichage du héros -->
+	<div class="card">
+		<h2>{{ hero.name }}
+			({{ hero.class }})</h2>
+		<p>Niveau :
+			{{ hero.level }}</p>
+		<p>Expérience :
+			{{ hero.experience }}</p>
+		<p>Biographie :
+			{{ hero.bio }}</p>
+	</div>
+
+	<!-- Affichage de la quête active -->
+	{% if hero.currentQuest %}
+		<div class="card">
+			<h2>Quête Active :
+				{{ hero.currentQuest.title }}</h2>
+			<p>{{ hero.currentQuest.description }}</p>
+			<p>Récompense :
+				{{ hero.currentQuest.reward.amount }}
+				pièces d'or</p>
+			<p>XP Gagné :
+				{{ hero.currentQuest.experienceGained }}</p>
+
+			<form method="post" action="{{ path('quest_complete', {'id': hero.currentQuest.id}) }}">
+				<button type="submit" class="btn btn-success">Valider la quête</button>
+			</form>
+
+			<form method="post" action="{{ path('quest_abandon', {'id': hero.currentQuest.id}) }}">
+				<button type="submit" class="btn btn-danger">Abandonner la quête</button>
+			</form>
+		</div>
+	{% else %}
+		<p>Tu n’as pas encore de quête active.</p>
+		<a href="{{ path('meet_sage') }}" class="btn btn-primary">Rencontrer le Sage du Bosquet</a>
+	{% endif %}
+
+	<!-- Changer de héros -->
+	<a href="{{ path('hero_select') }}" class="btn btn-secondary">Changer de héros</a>
+{% endblock %}
