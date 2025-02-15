@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Hero;
-use APP\Form\HeroType;
+use App\Form\HeroType;
 use App\Repository\HeroRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,11 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/dashboard')]
 #[IsGranted('ROLE_USER')]
 class HeroController extends AbstractController
 {
-    #[Route('/dashboard/create-hero', name: 'hero_create')]
+    #[Route('dashboard/create-hero', name: 'hero_create')]
     public function createHero(Request $request, EntityManagerInterface $entityManager, HeroRepository $heroRepository): Response
     {
         $user = $this->getUser();
@@ -25,7 +24,7 @@ class HeroController extends AbstractController
         $existingHeroes = $heroRepository->count(['user' => $user]);
         if ($existingHeroes >= 3) {
             $this->addFlash('danger', 'Vous ne pouvez pas créer plus de 3 héros.');
-            return $this->redirectToRoute('/dashboard/dashboard'); // Rediriger vers le dashboard
+            return $this->redirectToRoute('app_dashboard'); // Rediriger vers le dashboard
         }
 
         $hero = new Hero();
@@ -41,7 +40,7 @@ class HeroController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre héros a été créé avec succès !');
-            return $this->redirectToRoute('/dashboard/dashboard');
+            return $this->redirectToRoute('app_dashboard');
         }
 
         return $this->render('hero/create.html.twig', [
@@ -49,7 +48,7 @@ class HeroController extends AbstractController
         ]);
     }
 
-    #[Route('/select-hero', name: 'hero_select')]
+    #[Route('dashboard/select-hero', name: 'hero_select')]
     public function selectHero(HeroRepository $heroRepository): Response
     {
         $user = $this->getUser();
@@ -60,7 +59,7 @@ class HeroController extends AbstractController
         ]);
     }
 
-    #[Route('/set-hero/{id}', name: 'set_active_hero')]
+    #[Route('dashboard/set-hero/{id}', name: 'set_active_hero')]
     public function setActiveHero(Hero $hero, Request $request, EntityManagerInterface $em): Response
     {
         // Vérifier si l'utilisateur est bien le propriétaire du héros
@@ -72,6 +71,6 @@ class HeroController extends AbstractController
         $session = $request->getSession();
         $session->set('active_hero', $hero->getId());
 
-        return $this->redirectToRoute('/dashboard/dashboard'); // Redirige vers le dashboard
+        return $this->redirectToRoute('app_dashboard'); // Redirige vers le dashboard
     }
 }

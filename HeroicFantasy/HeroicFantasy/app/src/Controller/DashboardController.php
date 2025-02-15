@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/dashboard', name: 'dashboard')]
 #[IsGranted('ROLE_USER')] // Sécurisation : seulement les utilisateurs connectés
 class DashboardController extends AbstractController
 {
@@ -22,7 +21,7 @@ class DashboardController extends AbstractController
         $heroId = $session->get('active_hero'); // Récupère le héros actif
 
         if (!$heroId) {
-            return $this->redirectToRoute('/dashboard/create-hero'); // Redirige si aucun héros sélectionné
+            return $this->redirectToRoute('hero_create'); // Redirige si aucun héros sélectionné
         }
 
         $hero = $heroRepository->find($heroId);
