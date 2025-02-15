@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un Héros
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Créer un Nouveau Héros</h1>
+
+		{% for message in app.flashes('danger') %}
+			<div class="alert alert-danger">{{ message }}</div>
+		{% endfor %}
+
+		{{ form_start(form) }}
+		{{ form_row(form.name) }}
+		{{ form_row(form.class) }}
+		{{ form_row(form.bio) }}
+		<button type="submit" class="btn btn-primary">Créer le héros</button>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}

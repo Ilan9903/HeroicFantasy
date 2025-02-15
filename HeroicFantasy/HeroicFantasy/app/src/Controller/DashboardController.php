@@ -7,18 +7,25 @@ use App\Entity\Quest;
 use App\Repository\HeroRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('/dashboard')]
+#[Route('/dashboard', name: 'dashboard')]
 #[IsGranted('ROLE_USER')] // Sécurisation : seulement les utilisateurs connectés
 class DashboardController extends AbstractController
 {
-    #[Route('/', name: 'app_dashboard')]
-    public function index(HeroRepository $heroRepository): Response
+    #[Route('/dashboard', name: 'app_dashboard')]
+    public function index(HeroRepository $heroRepository, Request $request): Response
     {
-        $user = $this->getUser();
-        $hero = $heroRepository->findOneBy(['user' => $user]); // Récupérer le héros de l'utilisateur
+        $session = $request->getSession();
+        $heroId = $session->get('active_hero'); // Récupère le héros actif
+
+        if (!$heroId) {
+            return $this->redirectToRoute('/dashboard/create-hero'); // Redirige si aucun héros sélectionné
+        }
+
+        $hero = $heroRepository->find($heroId);
 
         return $this->render('dashboard/index.html.twig', [
             'hero' => $hero,

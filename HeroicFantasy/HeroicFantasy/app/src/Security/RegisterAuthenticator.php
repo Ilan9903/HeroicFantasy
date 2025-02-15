@@ -45,7 +45,7 @@ class RegisterAuthenticator extends AbstractLoginFormAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
-        return new RedirectResponse($this->urlGenerator->generate('/dashboard'));
+        return new RedirectResponse($this->urlGenerator->generate('/dashboard/dashboard'));
         throw new \Exception('TODO: provide a valid redirect inside ' . __FILE__);
     }
 

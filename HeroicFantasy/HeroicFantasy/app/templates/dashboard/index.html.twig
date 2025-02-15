@@ -4,47 +4,26 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Bienvenue sur ton Dashboard,
-		{{ hero.name }}
-		!</h1>
+	<div class="container">
+		<h1>Bienvenue sur votre Dashboard</h1>
 
-	<!-- Affichage du héros -->
-	<div class="card">
-		<h2>{{ hero.name }}
-			({{ hero.class }})</h2>
-		<p>Niveau :
-			{{ hero.level }}</p>
-		<p>Expérience :
-			{{ hero.experience }}</p>
-		<p>Biographie :
-			{{ hero.bio }}</p>
+		{% if heroes is empty %}
+			<div class="alert alert-warning">
+				Vous n'avez encore aucun héros !
+				<a href="{{ path('hero_create') }}" class="btn btn-primary">Créer un héros</a>
+			</div>
+		{% else %}
+			<h2>Vos Héros</h2>
+			<ul>
+				{% for hero in heroes %}
+					<li>
+						{{ hero.name }}
+						({{ hero.class }}) - Niveau
+						{{ hero.level }}
+						<a href="{{ path('hero_select', {'id': hero.id}) }}" class="btn btn-secondary">Sélectionner</a>
+					</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
 	</div>
-
-	<!-- Affichage de la quête active -->
-	{% if hero.currentQuest %}
-		<div class="card">
-			<h2>Quête Active :
-				{{ hero.currentQuest.title }}</h2>
-			<p>{{ hero.currentQuest.description }}</p>
-			<p>Récompense :
-				{{ hero.currentQuest.reward.amount }}
-				pièces d'or</p>
-			<p>XP Gagné :
-				{{ hero.currentQuest.experienceGained }}</p>
-
-			<form method="post" action="{{ path('quest_complete', {'id': hero.currentQuest.id}) }}">
-				<button type="submit" class="btn btn-success">Valider la quête</button>
-			</form>
-
-			<form method="post" action="{{ path('quest_abandon', {'id': hero.currentQuest.id}) }}">
-				<button type="submit" class="btn btn-danger">Abandonner la quête</button>
-			</form>
-		</div>
-	{% else %}
-		<p>Tu n’as pas encore de quête active.</p>
-		<a href="{{ path('meet_sage') }}" class="btn btn-primary">Rencontrer le Sage du Bosquet</a>
-	{% endif %}
-
-	<!-- Changer de héros -->
-	<a href="{{ path('hero_select') }}" class="btn btn-secondary">Changer de héros</a>
 {% endblock %}
