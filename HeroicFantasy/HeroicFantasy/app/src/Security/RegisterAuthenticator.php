@@ -46,7 +46,6 @@ class RegisterAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
         return new RedirectResponse($this->urlGenerator->generate('app_dashboard'));
-        throw new \Exception('TODO: provide a valid redirect inside ' . __FILE__);
     }
 
     protected function getLoginUrl(Request $request): string
