@@ -2,31 +2,30 @@
 
 namespace App\Controller;
 
-use App\Entity\Hero;
-use App\Repository\HeroRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Entity\User;
+use App\Entity\Hero;
 
-#[IsGranted('ROLE_USER')] // Sécurisation : seulement les utilisateurs connectés
+#[IsGranted("ROLE_USER")]
 class DashboardController extends AbstractController
 {
     #[Route('/dashboard', name: 'app_dashboard')]
-    public function index(HeroRepository $heroRepository, Request $request): Response
+    public function index()
     {
-        $session = $request->getSession();
-        $heroId = $session->get('active_hero'); // Récupère le héros actif
+        $user = $this->getUser();
+        $heroes = $user->getHeroes();
 
-        if (!$heroId) {
-            return $this->redirectToRoute('app_dashboard'); // Redirige vers la sélection de héros si aucun héros sélectionné
+
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté pour voir le Dashboard.');
         }
 
-        $hero = $heroRepository->find($heroId);
+
 
         return $this->render('dashboard/index.html.twig', [
-            'hero' => $hero,
+            'heroes' => $heroes,
         ]);
     }
 }
