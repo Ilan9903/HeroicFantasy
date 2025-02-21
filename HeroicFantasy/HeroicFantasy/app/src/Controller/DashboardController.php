@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Hero;
-use App\Entity\Quest;
 use App\Repository\HeroRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +20,7 @@ class DashboardController extends AbstractController
         $heroId = $session->get('active_hero'); // Récupère le héros actif
 
         if (!$heroId) {
-            return $this->redirectToRoute('app_dashboard'); // Redirige si aucun héros sélectionné
+            return $this->redirectToRoute('app_dashboard'); // Redirige vers la sélection de héros si aucun héros sélectionné
         }
 
         $hero = $heroRepository->find($heroId);
