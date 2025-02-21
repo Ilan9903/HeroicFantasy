@@ -14,7 +14,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            entry_point: form_login # Définit l'authenticator par défaut
+            entry_point: App\Security\RegisterAuthenticator # Définit l'authenticator par défaut
             form_login:
                 default_target_path: /dashboard
             lazy: true

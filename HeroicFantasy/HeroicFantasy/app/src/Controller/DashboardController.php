@@ -20,9 +20,9 @@ class DashboardController extends AbstractController
         $session = $request->getSession();
         $heroId = $session->get('active_hero'); // Récupère le héros actif
 
-        /*if (!$heroId) {
-            return $this->redirectToRoute('hero_create'); // Redirige si aucun héros sélectionné
-        }*/
+        if (!$heroId) {
+            return $this->redirectToRoute('app_dashboard'); // Redirige si aucun héros sélectionné
+        }
 
         $hero = $heroRepository->find($heroId);
 
