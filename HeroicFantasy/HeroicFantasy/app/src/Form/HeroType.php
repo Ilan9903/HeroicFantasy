@@ -17,11 +17,11 @@ class HeroType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom du héros',
+                'label' => 'Name',
                 'required' => true
             ])
             ->add('class', ChoiceType::class, [
-                'label' => 'Classe du héros',
+                'label' => 'Class',
                 'choices' => [
                     'Druide' => 'Druide',
                     'Chaman' => 'Chaman',
@@ -32,11 +32,11 @@ class HeroType extends AbstractType
                 'required' => true
             ])
             ->add('bio', TextareaType::class, [
-                'label' => 'Biographie',
+                'label' => 'Bio',
                 'required' => false
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Créer le héros'
+                'label' => 'Create'
             ]);
     }
 

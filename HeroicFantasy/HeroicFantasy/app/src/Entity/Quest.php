@@ -36,6 +36,11 @@ class Quest
     #[ORM\JoinColumn(nullable: false)]
     private ?Reward $rewardEntity = null;
 
+    // ✅ Ajout de la relation avec Hero pour pouvoir assigner une quête à un héros
+    #[ORM\ManyToOne(targetEntity: Hero::class, inversedBy: 'quests')]
+    private ?Hero $hero = null;
+
+    // ✅ Getters et Setters existants (non modifiés)
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +109,31 @@ class Quest
     public function setRewardEntity(Reward $rewardEntity): self
     {
         $this->rewardEntity = $rewardEntity;
+        return $this;
+    }
+
+    // ✅ Getter et Setter pour Hero
+    public function getHero(): ?Hero
+    {
+        return $this->hero;
+    }
+
+    public function setHero(?Hero $hero): self
+    {
+        $this->hero = $hero;
+        return $this;
+    }
+
+    // ✅ Ajout d'une méthode pour assigner une quête à un héros
+    public function assignToHero(Hero $hero): self
+    {
+        if ($this->status !== 'available') {
+            throw new \Exception("Cette quête ne peut pas être assignée.");
+        }
+
+        $this->hero = $hero;
+        $this->status = 'assigned';
+
         return $this;
     }
 }

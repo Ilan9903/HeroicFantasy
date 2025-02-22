@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rencontre avec le PNJ
+{% endblock %}
+
+{% block body %}
+	<h1>Le Sage du Bosquet</h1>
+	<p>"Je suis Le Sage du Bosquet, je vais vous confier une quête épique !"</p>
+
+	{% for message in app.flashes('danger') %}
+		<div class="alert alert-danger">{{ message }}</div>
+	{% endfor %}
+
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">{{ message }}</div>
+	{% endfor %}
+
+	{% for message in app.flashes('warning') %}
+		<div class="alert alert-warning">{{ message }}</div>
+	{% endfor %}
+
+	<a href="{{ path('receive_quest') }}" class="btn btn-primary">Recevoir une quête</a>
+	<a href="{{ path('app_dashboard') }}" class="btn btn-secondary">Retour au Dashboard</a>
+{% endblock %}

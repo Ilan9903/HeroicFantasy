@@ -2,20 +2,20 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Sélectionner un Héros
+{% block title %}Select a Hero
 {% endblock %}
 
 {% block body %}
-	<h1>Sélectionner un Héros</h1>
+	<h1>Select a Hero</h1>
 
 	<div>
 		<ul>
 			{% for hero in heroes %}
 				<li>
 					{{ hero.name }}
-					({{ hero.class }}) - Niveau
+					({{ hero.class }}) - Level
 					{{ hero.level }}
-					<a href="{{ path('set_active_hero', {id: hero.id}) }}" class="btn btn-primary">Sélectionner</a>
+					<a href="{{ path('set_active_hero', {id: hero.id}) }}" class="btn btn-primary">Select</a>
 				</li>
 			{% endfor %}
 		</ul>

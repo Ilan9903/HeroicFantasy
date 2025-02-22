@@ -28,6 +28,10 @@ class Hero
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $bio = null;
 
+    #[ORM\OneToOne(targetEntity: Quest::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Quest $currentQuest = null;
+
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'heroes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -94,6 +98,17 @@ class Hero
     {
         $this->bio = $bio;
 
+        return $this;
+    }
+
+    public function getCurrentQuest(): ?Quest
+    {
+        return $this->currentQuest;
+    }
+
+    public function setCurrentQuest(?Quest $quest): self
+    {
+        $this->currentQuest = $quest;
         return $this;
     }
 
