@@ -4,30 +4,25 @@ namespace App\Entity;
 
 use App\Repository\HeroRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: HeroRepository::class)]
 class Hero
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank]
+    #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(type: 'string', length: 100)]
-    #[Assert\Choice(choices: ['Druide', 'Chaman', 'Guerrier', 'Voleur', 'Mage'], message: 'Classe invalide.')]
+    #[ORM\Column(length: 255)]
     private ?string $class = null;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column]
     private int $level = 1;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column]
     private int $experience = 0;
 
     #[ORM\Column(type: 'text', nullable: true)]
@@ -36,10 +31,6 @@ class Hero
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'heroes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
-
-    #[ORM\ManyToOne(targetEntity: Quest::class)]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Quest $currentQuest = null;
 
     public function getId(): ?int
     {
@@ -54,6 +45,7 @@ class Hero
     public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -65,6 +57,7 @@ class Hero
     public function setClass(string $class): self
     {
         $this->class = $class;
+
         return $this;
     }
 
@@ -76,6 +69,7 @@ class Hero
     public function setLevel(int $level): self
     {
         $this->level = $level;
+
         return $this;
     }
 
@@ -87,6 +81,7 @@ class Hero
     public function setExperience(int $experience): self
     {
         $this->experience = $experience;
+
         return $this;
     }
 
@@ -98,6 +93,7 @@ class Hero
     public function setBio(?string $bio): self
     {
         $this->bio = $bio;
+
         return $this;
     }
 
@@ -109,17 +105,12 @@ class Hero
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
         return $this;
     }
 
-    public function getCurrentQuest(): ?Quest
+    public function __toString()
     {
-        return $this->currentQuest;
-    }
-
-    public function setCurrentQuest(?Quest $currentQuest): self
-    {
-        $this->currentQuest = $currentQuest;
-        return $this;
+        return $this->name . ' (' . $this->class . ') - Niveau ' . $this->level;
     }
 }

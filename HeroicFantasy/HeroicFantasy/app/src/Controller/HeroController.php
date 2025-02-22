@@ -60,7 +60,7 @@ class HeroController extends AbstractController
     }
 
     #[Route('dashboard/set-hero/{id}', name: 'set_active_hero')]
-    public function setActiveHero(Hero $hero, Request $request, EntityManagerInterface $em): Response
+    public function setActiveHero(Hero $hero, Request $request, EntityManagerInterface $entityManager): Response
     {
         // Vérifier si l'utilisateur est bien le propriétaire du héros
         if ($hero->getUser() !== $this->getUser()) {
@@ -70,6 +70,8 @@ class HeroController extends AbstractController
         // Définir le héros sélectionné comme actif dans la session
         $session = $request->getSession();
         $session->set('active_hero', $hero->getId());
+
+        $this->addFlash('success', 'Héros sélectionné avec succès !');
 
         return $this->redirectToRoute('app_dashboard'); // Redirige vers le dashboard
     }

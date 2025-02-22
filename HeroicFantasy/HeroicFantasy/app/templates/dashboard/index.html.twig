@@ -1,29 +1,20 @@
+{# filepath: templates/dashboard/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Dashboard
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-		<h1>Bienvenue sur votre Dashboard</h1>
+	<h1>Dashboard</h1>
 
-		{% if heroes is empty %}
-			<div class="alert alert-warning">
-				Vous n'avez encore aucun héros !
-				<a href="{{ path('hero_create') }}" class="btn btn-primary">Créer un héros</a>
-			</div>
-		{% else %}
-			<h2>Vos Héros</h2>
-			<ul>
-				{% for hero in heroes %}
-					<li>
-						{{ hero.name }}
-						({{ hero.class }}) - Niveau
-						{{ hero.level }}
-						<a href="{{ path('hero_select', {'id': hero.id}) }}" class="btn btn-secondary">Sélectionner</a>
-					</li>
-				{% endfor %}
-			</ul>
+	<div>
+		{% if not hasMaxHeroes %}
+			<a href="{{ path('hero_create') }}" class="btn btn-primary">Créer un Héros</a>
+		{% endif %}
+		{% if hasHeroes %}
+			<a href="{{ path('hero_select') }}" class="btn btn-secondary">Sélectionner un Héros</a>
 		{% endif %}
 	</div>
+
 {% endblock %}

@@ -36,7 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Hero::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Hero::class, orphanRemoval: true, cascade: ["persist", "remove"])]
     private Collection $heroes;
 
     #[ORM\Column]
@@ -113,6 +113,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|Hero[]
+     */
     public function getHeroes(): Collection
     {
         return $this->heroes;

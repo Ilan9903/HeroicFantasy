@@ -15,17 +15,18 @@ class DashboardController extends AbstractController
     public function index()
     {
         $user = $this->getUser();
-        $heroes = $user->getHeroes();
-
 
         if (!$user) {
             throw $this->createAccessDeniedException('Vous devez être connecté pour voir le Dashboard.');
         }
 
-
+        $heroes = $user->getHeroes();
+        $hasHeroes = count($heroes) > 0;
+        $hasMaxHeroes = count($heroes) >= 3;
 
         return $this->render('dashboard/index.html.twig', [
-            'heroes' => $heroes,
+            'hasHeroes' => $hasHeroes,
+            'hasMaxHeroes' => $hasMaxHeroes,
         ]);
     }
 }
