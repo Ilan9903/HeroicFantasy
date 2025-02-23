@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Quest;
 use App\Repository\QuestRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,22 +30,20 @@ class PNJController extends AbstractController
     public function receiveQuest(QuestRepository $questRepository, EntityManagerInterface $em)
     {
         $user = $this->getUser();
-        $heroes = $user->getHeroes();
+        $selectedHero = $user->getSelectedHero();
 
         // 📌 Vérifie si le joueur a au moins un héros
-        if (count($heroes) === 0) {
+        if (!$selectedHero) {
             $this->addFlash('danger', 'Vous devez avoir un héros pour recevoir une quête.');
             return $this->redirectToRoute('app_dashboard');
         }
-
-        $hero = $heroes->first(); // 📌 Sélectionne le premier héros du joueur
 
         // 📌 Récupère une quête disponible au hasard
         $availableQuests = $questRepository->findBy(['status' => 'available']);
         if (!empty($availableQuests)) {
             $quest = $availableQuests[array_rand($availableQuests)];
             $quest->setStatus('assigned');
-            $quest->setHero($hero);
+            $quest->setHero($selectedHero);
 
             $em->persist($quest);
             $em->flush();

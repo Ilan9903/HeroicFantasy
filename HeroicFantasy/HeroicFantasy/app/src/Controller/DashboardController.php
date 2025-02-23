@@ -5,8 +5,6 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use App\Entity\User;
-use App\Entity\Hero;
 use App\Entity\Quest;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -58,7 +56,9 @@ class DashboardController extends AbstractController
         $hero->setLevel($hero->getLevel() + 1);
 
         // Supprimer la quête active
+        $quest->setStatus('completed');
         $hero->setCurrentQuest(null);
+        $quest->setHero(null);
 
         $entityManager->persist($hero);
         $entityManager->remove($quest);
