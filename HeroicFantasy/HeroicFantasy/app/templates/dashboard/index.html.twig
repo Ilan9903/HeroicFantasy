@@ -58,6 +58,11 @@
 		<h2>Aucune quête en cours</h2>
 		<a href="{{ path('meet_pnj') }}" class="btn btn-info">Rencontrer le PNJ</a>
 	{% endif %}
+
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-success">{{ message }}</div>
+	{% endfor %}
+
 	{% for message in app.flashes('danger') %}
 		<div class="alert alert-danger">{{ message }}</div>
 	{% endfor %}
