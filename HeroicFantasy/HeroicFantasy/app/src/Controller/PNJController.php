@@ -52,10 +52,11 @@ class PNJController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', "Vous avez reçu la quête : " . $quest->getTitle());
+            return $this->redirectToRoute('app_dashboard');
         } else {
             $this->addFlash('warning', "Aucune quête disponible pour le moment.");
         }
 
-        return $this->redirectToRoute('meet_pnj');
+        return $this->redirectToRoute('app_dashboard');
     }
 }

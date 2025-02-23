@@ -71,6 +71,10 @@ class HeroController extends AbstractController
         $session = $request->getSession();
         $session->set('active_hero', $hero->getId());
 
+        $this->getUser()->setSelectedHero($hero);
+        $entityManager->persist($this->getUser());
+        $entityManager->flush();
+
         $this->addFlash('success', 'Héros sélectionné avec succès !');
 
         return $this->redirectToRoute('app_dashboard'); // Redirige vers le dashboard

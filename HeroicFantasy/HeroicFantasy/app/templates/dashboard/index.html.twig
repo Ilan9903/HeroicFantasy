@@ -35,6 +35,7 @@
 			{{ selectedHero.bio }}</p>
 	{% endif %}
 
+
 	{% if currentQuest %}
 		<h2>Quête en cours</h2>
 		<p>
@@ -45,7 +46,9 @@
 			{{ currentQuest.description }}</p>
 		<p>
 			<strong>Récompense :</strong>
-			{{ currentQuest.reward }}</p>
+			{{ currentQuest.reward.amount }}
+			-
+			{{ currentQuest.reward.description }}</p>
 		<p>
 			<strong>Expérience Gagnée :</strong>
 			{{ currentQuest.experienceGained }}</p>
@@ -57,13 +60,17 @@
 	{% else %}
 		<h2>Aucune quête en cours</h2>
 		<a href="{{ path('meet_pnj') }}" class="btn btn-info">Rencontrer le PNJ</a>
+		<br>
 	{% endif %}
 
 	{% for message in app.flashes('success') %}
+		<br>
 		<div class="alert alert-success">{{ message }}</div>
 	{% endfor %}
 
+
 	{% for message in app.flashes('danger') %}
+		<br>
 		<div class="alert alert-danger">{{ message }}</div>
 	{% endfor %}
 

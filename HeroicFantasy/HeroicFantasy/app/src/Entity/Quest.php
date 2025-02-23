@@ -32,7 +32,7 @@ class Quest
     #[ORM\JoinColumn(nullable: false)]
     private ?Reward $reward = null;
 
-    #[ORM\ManyToOne(targetEntity: Hero::class, inversedBy: "quests")]
+    #[ORM\ManyToOne(targetEntity: Hero::class, inversedBy: 'quests')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Hero $hero = null;
 

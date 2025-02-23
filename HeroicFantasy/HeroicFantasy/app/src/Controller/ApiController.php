@@ -53,11 +53,11 @@ class ApiController extends AbstractController
             'title' => $quest->getTitle(),
             'description' => $quest->getDescription(),
             'status' => $quest->getStatus(),
+            'experienceGained' => $quest->getExperienceGained(),
             'reward' => [
-                'amount' => $quest->getRewardEntity()->getAmount(),
-                'description' => $quest->getRewardEntity()->getDescription()
+                'amount' => $quest->getReward()->getAmount(),
+                'description' => $quest->getReward()->getDescription(),
             ],
-            'experienceGained' => $quest->getExperienceGained()
         ], $quests);
 
         return $this->json($data);

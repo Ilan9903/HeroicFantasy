@@ -26,11 +26,14 @@ class DashboardController extends AbstractController
         $hasHeroes = count($heroes) > 0;
         $hasMaxHeroes = count($heroes) >= 3;
 
-        // 📌 Sélectionner le premier héros de l'utilisateur (à améliorer avec un vrai système de sélection)
-        $selectedHero = $hasHeroes ? $heroes[0] : null;
+        // 📌 Récupérer le héros sélectionné de l'utilisateur
+        $selectedHero = $user->getSelectedHero();
 
         // 📌 Récupérer la quête active du héros sélectionné
-        $currentQuest = $selectedHero ? $selectedHero->getCurrentQuest() : null;
+        $currentQuest = null;
+        if ($selectedHero) {
+            $currentQuest = $entityManager->getRepository(Quest::class)->findOneBy(['hero' => $selectedHero, 'status' => 'assigned']);
+        }
 
         return $this->render('dashboard/index.html.twig', [
             'hasHeroes' => $hasHeroes,
@@ -50,6 +53,9 @@ class DashboardController extends AbstractController
 
         // Ajouter la récompense au héros
         $hero->setExperience($hero->getExperience() + $quest->getExperienceGained());
+
+        // Augmenter le niveau du héros
+        $hero->setLevel($hero->getLevel() + 1);
 
         // Supprimer la quête active
         $hero->setCurrentQuest(null);

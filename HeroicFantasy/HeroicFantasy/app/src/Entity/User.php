@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Hero;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -41,6 +42,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+    #[ORM\ManyToOne(targetEntity: Hero::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Hero $selectedHero = null;
 
     public function __construct()
     {
@@ -130,6 +135,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function removeHero(Hero $hero): self
+    {
+        if ($this->heroes->removeElement($hero)) {
+            // set the owning side to null (unless already changed)
+            if ($hero->getUser() === $this) {
+                $hero->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
     /**
      * @see UserInterface
      */
@@ -149,5 +166,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+
+    public function setSelectedHero(Hero $hero): self
+    {
+        $this->selectedHero = $hero;
+        return $this;
+    }
+
+    public function getSelectedHero(): ?Hero
+    {
+        return $this->selectedHero;
     }
 }
